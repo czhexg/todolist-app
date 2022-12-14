@@ -1,0 +1,1 @@
+This is a todo list app built using nodejs, express and ejs. MongoDB and Mongoose are also used for the database.
