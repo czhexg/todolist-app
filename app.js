@@ -8,12 +8,12 @@ const app = express();
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded());
-app.use(express.static(__dirname + "public"));
+app.use(express.static("public"));
 
 const connectDB = async () => {
     try {
         const conn = await mongoose.connect(
-            "mongodb+srv://Xelf:LxBJpiam9lJdQgmR@cluster0.dgsv2kl.mongodb.net/todolistDB"
+            "mongodb+srv://Xelf:LxBJpiam9lJdQgmR@cluster0.dgsv2kl.mongodb.net/?retryWrites=true&w=majority"
         );
         console.log(`MongoDB Connected: ${conn.connection.host}`);
     } catch (error) {
