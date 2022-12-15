@@ -1,6 +1,7 @@
 const express = require("express");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
+const _ = require("lodash");
 
 const app = express();
 
@@ -49,7 +50,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/:customListName", (req, res) => {
-    const customListName = req.params.customListName;
+    const customListName = _.startCase(req.params.customListName);
 
     List.findOne({ name: customListName }, (err, foundList) => {
         if (!err) {
@@ -73,10 +74,10 @@ app.get("/:customListName", (req, res) => {
 
 app.post("/", (req, res) => {
     const newItem = req.body.newItem;
-    const listName = req.body.list;
+    const listName = req.body.listName;
     const newItemDoc = new Item({ name: newItem });
 
-    if (req.body.list === "Today") {
+    if (listName === "Today") {
         if (newItem) {
             newItemDoc.save();
         }
@@ -91,12 +92,27 @@ app.post("/", (req, res) => {
 });
 
 app.post("/delete", (req, res) => {
-    Item.findOneAndDelete({ _id: req.body.toDelete }, (err, result) => {
-        if (!err) {
-            console.log("\nDeleted: " + result);
-        }
-    });
-    res.redirect("/");
+    const listName = req.body.listName;
+    const toDeleteId = req.body.toDelete;
+
+    if (listName === "Today") {
+        Item.findOneAndDelete({ _id: toDeleteId }, (err, result) => {
+            if (!err) {
+                console.log("\nDeleted: " + result);
+            }
+        });
+        res.redirect("/");
+    } else {
+        List.findOneAndUpdate(
+            { name: listName },
+            { $pull: { items: { _id: toDeleteId } } },
+            (err) => {
+                if (!err) {
+                    res.redirect("/" + listName);
+                }
+            }
+        );
+    }
 });
 
 app.get("/work", (req, res) => {

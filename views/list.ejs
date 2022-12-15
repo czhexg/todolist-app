@@ -6,9 +6,10 @@
         <% for (item of items) { %>
             <form action="/delete" method="post">
                 <div class="item">
-                    <input type="checkbox" name="toDelete" value="<%= item._id %>" onchange="this.form.submit()"/>
+                    <input type="checkbox" name="toDelete" value="<%= item._id %>" onchange="this.form.submit()" />
                     <p><%= item.name %></p>
                 </div>
+                <input type="hidden" name="listName" value="<%= listTitle %>" />
             </form>
         <% } %>
 
@@ -19,7 +20,7 @@
                 placeholder="New Item"
                 autocomplete="off"
             />
-            <button type="submit" name="list" value="<%= listTitle %>"
+            <button type="submit" name="listName" value="<%= listTitle %>"
                 >+
             </button>
         </form>
