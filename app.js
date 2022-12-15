@@ -11,7 +11,7 @@ app.use(express.urlencoded());
 app.use(express.static("public"));
 
 mongoose.connect(
-    "mongodb+srv://Xelf:LxBJpiam9lJdQgmR@cluster0.mongodb.net/todolistDB"
+    "mongodb+srv://Xelf:LxBJpiam9lJdQgmR@cluster0.dgsv2kl.mongodb.net/todolistDB"
 );
 
 const itemSchema = new mongoose.Schema({
