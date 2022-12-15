@@ -123,12 +123,6 @@ app.post("/delete", (req, res) => {
     }
 });
 
-app.get("/work", (req, res) => {
-    res.render("list", { listTitle: "Work List", items: newWorkItems });
-});
-
-app.post("/work", (req, res) => {});
-
 connectDB().then(() => {
     app.listen(3000, () => {
         console.log("Server running on port 3000");
