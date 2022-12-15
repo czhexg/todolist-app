@@ -8,7 +8,7 @@ const app = express();
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded());
-app.use(express.static("public"));
+app.use(express.static(__dirname + "public"));
 
 const connectDB = async () => {
     try {
