@@ -10,9 +10,17 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded());
 app.use(express.static("public"));
 
-mongoose.connect(
-    "mongodb+srv://Xelf:LxBJpiam9lJdQgmR@cluster0.dgsv2kl.mongodb.net/todolistDB"
-);
+const connectDB = async () => {
+    try {
+        const conn = await mongoose.connect(
+            "mongodb+srv://Xelf:LxBJpiam9lJdQgmR@cluster0.dgsv2kl.mongodb.net/todolistDB"
+        );
+        console.log(`MongoDB Connected: ${conn.connection.host}`);
+    } catch (error) {
+        console.log(error);
+        process.exit(1);
+    }
+};
 
 const itemSchema = new mongoose.Schema({
     name: String,
@@ -123,6 +131,8 @@ app.get("/work", (req, res) => {
 
 app.post("/work", (req, res) => {});
 
-app.listen(3000, () => {
-    console.log("Server running on port 3000");
+connectDB().then(() => {
+    app.listen(3000, () => {
+        console.log("Server running on port 3000");
+    });
 });
